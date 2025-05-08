@@ -13,7 +13,7 @@ import java.util.jar.JarFile;
 public class Main {
 
     public static void agentmain(String agentArgs, Instrumentation inst) throws URISyntaxException, IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
-        FishhookClassLoader fCl = null;
+        FishClassLoader fCl = null;
         // minecraft class loader
         ClassLoader mcCl = null;
         Class<?> mcClC = null;
@@ -22,7 +22,7 @@ public class Main {
             if (c.getTypeName().startsWith("net.minecraft")) {
                 mcCl = c.getClassLoader();
                 mcClC = mcCl.getClass();
-                fCl = new FishhookClassLoader(mcCl);
+                fCl = new FishClassLoader(mcCl);
                 break;
             }
         }
@@ -31,7 +31,7 @@ public class Main {
             throw new RuntimeException("Minecraft class loader could not be found");
         }
 
-        JarFile jarFile = FishhookClassLoader.getJar();
+        JarFile jarFile = FishClassLoader.getJar();
         ArrayList<JarEntry> entriesToLoad = new ArrayList<>();
 
         for (JarEntry file : jarFile.stream().toList()) {
@@ -68,6 +68,6 @@ public class Main {
             }
         }
 
-        Fishhook.init();
+        Fish.init();
     }
 }

@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.jar.JarFile;
 
-public class FishhookClassLoader extends ClassLoader {
+public class FishClassLoader extends ClassLoader {
     private static JarFile jarFile;
 
-    public FishhookClassLoader(ClassLoader parent) {
+    public FishClassLoader(ClassLoader parent) {
         super(parent);
     }
 
