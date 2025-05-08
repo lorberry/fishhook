@@ -14,6 +14,12 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
+tasks.withType<Jar> {
+    manifest {
+        attributes["Agent-Class"] = "dev.lorberry.fishhook.Main"
+    }
+}
+
 tasks.test {
     useJUnitPlatform()
 }
