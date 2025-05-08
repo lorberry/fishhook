@@ -13,6 +13,8 @@ import java.util.jar.JarFile;
 public class Main {
 
     public static void agentmain(String agentArgs, Instrumentation inst) throws URISyntaxException, IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+        System.out.println("Started Fish agent (Loaded classes: " + inst.getAllLoadedClasses().length + ")");
+
         FishClassLoader fCl = null;
         // minecraft class loader
         ClassLoader mcCl = null;
@@ -23,6 +25,7 @@ public class Main {
                 mcCl = c.getClassLoader();
                 mcClC = mcCl.getClass();
                 fCl = new FishClassLoader(mcCl);
+                System.out.println("Attached Fish agent");
                 break;
             }
         }
