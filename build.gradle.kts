@@ -3,7 +3,6 @@ plugins {
 }
 
 group = "dev.lorberry"
-version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -14,10 +13,32 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
-tasks.withType<Jar> {
+tasks.register<Jar>("agentJar") {
+    from(sourceSets.main.get().output)
+    archiveFileName.set("agent.jar")
     manifest {
-        attributes["Agent-Class"] = "dev.lorberry.fishhook.Main"
+        attributes(
+            "Agent-Class" to "dev.lorberry.fishhook.agent.Main",
+            "Can-Redefine-Classes" to "true",
+            "Can-Retransform-Classes" to "true"
+        )
     }
+}
+
+tasks.register<Jar>("loaderJar") {
+    from(sourceSets.main.get().output)
+    archiveFileName.set("loader.jar")
+    manifest {
+        attributes("Main-Class" to "dev.lorberry.fishhook.loader.Loader")
+    }
+}
+
+tasks.named("jar") {
+    enabled = false
+}
+
+tasks.build {
+    dependsOn("agentJar", "loaderJar")
 }
 
 tasks.test {

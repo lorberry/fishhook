@@ -1,4 +1,4 @@
-package dev.lorberry.fishhook;
+package dev.lorberry.fishhook.agent;
 
 import java.io.File;
 import java.io.IOException;
