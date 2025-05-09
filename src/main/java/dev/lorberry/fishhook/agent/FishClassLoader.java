@@ -11,20 +11,10 @@ import java.util.jar.JarFile;
 public class FishClassLoader extends ClassLoader {
     private static JarFile jarFile;
 
-    /**
-     * Constructor with parent class loader
-     *
-     * @param parent Parent class loader
-     */
     public FishClassLoader(ClassLoader parent) {
         super(parent);
     }
 
-    /**
-     * Returns the agent jar file
-     *
-     * @return JarFile of agent
-     */
     public static JarFile getJar() throws URISyntaxException, IOException {
         if (jarFile == null) {
             jarFile = new JarFile(new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()));
@@ -32,12 +22,6 @@ public class FishClassLoader extends ClassLoader {
         return jarFile;
     }
 
-    /**
-     * Loads a class by name from parent or agent jar
-     *
-     * @param name Class name
-     * @return Loaded class or null
-     */
     @Override
     public Class<?> loadClass(String name) {
         Class<?> c = null;
@@ -68,12 +52,6 @@ public class FishClassLoader extends ClassLoader {
         return null;
     }
 
-    /**
-     * Finds and loads a class by name
-     *
-     * @param name Class name
-     * @return Loaded class or null
-     */
     @Override
     protected Class<?> findClass(String name) {
         return loadClass(name);
