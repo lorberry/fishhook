@@ -5,8 +5,14 @@ import com.sun.tools.attach.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author lorberry
+ */
 public class Loader {
 
+    /**
+     * Main method. Finds the agent file and attaches it to the minecraft process.
+     */
     public static void main(String[] args) {
         File agentFile = new File("agent.jar");
         if (!agentFile.exists()) {
@@ -34,6 +40,11 @@ public class Loader {
         }
     }
 
+    /**
+     * Finds the running Minecraft process.
+     *
+     * @return VirtualMachineDescriptor of Minecraft, or null if not found.
+     */
     private static VirtualMachineDescriptor findMcProcess() {
         for (VirtualMachineDescriptor vm : VirtualMachine.list()) {
             if (vm.displayName().startsWith("net.minecraft")) {
