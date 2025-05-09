@@ -5,7 +5,6 @@ import java.lang.instrument.Instrumentation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URISyntaxException;
-import java.security.CodeSource;
 import java.util.ArrayList;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
@@ -33,6 +32,7 @@ public class Main {
                 if (c.getTypeName().startsWith("net.minecraft")) {
                     mcCl = c.getClassLoader();
                     mcClC = mcCl.getClass();
+
                     fCl = new FishClassLoader(mcCl);
                     System.out.println("Attached Fish agent");
                     break;
@@ -52,7 +52,7 @@ public class Main {
                 }
             }
 
-            Method defineClassMethod = mcClC.getMethod("defineClassFwd", String.class, byte[].class, int.class, int.class, CodeSource.class);
+            Method defineClassMethod = ClassLoader.class.getDeclaredMethod("defineClass", String.class, byte[].class, int.class, int.class);
             defineClassMethod.setAccessible(true);
 
             while (!entriesToLoad.isEmpty()) {
@@ -63,7 +63,7 @@ public class Main {
                     String className = file.getName().replace("/", ".").replace(".class", "");
 
                     try {
-                        defineClassMethod.invoke(mcCl, className, classBytes, 0, classBytes.length, null);
+                        defineClassMethod.invoke(mcCl, className, classBytes, 0, classBytes.length);
                     } catch (IllegalAccessException | InvocationTargetException e) {
                         if (e.getCause() instanceof LinkageError) {
                             failed.add(file);
