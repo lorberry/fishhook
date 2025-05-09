@@ -10,8 +10,16 @@ import java.util.ArrayList;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+/**
+ * Java agent entry point for Fish
+ *
+ * @author lorberry
+ */
 public class Main {
 
+    /**
+     * agentmain method. Loads Fish classes into the Minecraft class loader.
+     */
     public static void agentmain(String agentArgs, Instrumentation inst) throws URISyntaxException, IOException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try {
             System.out.println("Started Fish agent (Loaded classes: " + inst.getAllLoadedClasses().length + ")");
@@ -74,6 +82,7 @@ public class Main {
 
             Fish.init();
         } catch (Exception e) {
+            //noinspection CallToPrintStackTrace
             e.printStackTrace();
         }
     }
