@@ -14,13 +14,15 @@ public class Loader {
      * Main method. Finds the agent file and attaches it to the minecraft process.
      */
     public static void main(String[] args) {
+        System.out.print("\n");
+
         File agentFile = new File("agent.jar");
         if (!agentFile.exists()) {
             System.out.println("Agent file not found");
             return;
         }
 
-        System.out.println("Found agent file");
+        System.out.println("Found agent file: " + agentFile.getAbsolutePath());
 
         VirtualMachineDescriptor mcProcess = findMcProcess();
         if (mcProcess == null) {
@@ -28,13 +30,13 @@ public class Loader {
             return;
         }
 
-        System.out.println("Found minecraft process");
+        System.out.println("Found minecraft process -> " + mcProcess.id());
 
         try {
             VirtualMachine vm = VirtualMachine.attach(mcProcess.id());
             vm.loadAgent(agentFile.getAbsolutePath());
             vm.detach();
-            System.out.println("Successfully attached Fish!");
+            System.out.println("\n--- Successfully attached Fish! ---\n");
         } catch (AttachNotSupportedException | IOException | AgentLoadException | AgentInitializationException e) {
             throw new RuntimeException(e);
         }

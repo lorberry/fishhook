@@ -16,6 +16,7 @@ dependencies {
 tasks.register<Jar>("agentJar") {
     from(sourceSets.main.get().output) {
         include("dev/lorberry/fishhook/agent/**")
+        include("dev/lorberry/fishhook/client/**")
     }
     archiveFileName.set("agent.jar")
     manifest {

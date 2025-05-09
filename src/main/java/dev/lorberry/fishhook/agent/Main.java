@@ -47,10 +47,12 @@ public class Main {
             ArrayList<JarEntry> entriesToLoad = new ArrayList<>();
 
             for (JarEntry file : jarFile.stream().toList()) {
-                if (file.getName().endsWith(".class") && file.getName().startsWith("dev/lorberry/fishhook")) {
+                if (file.getName().endsWith(".class") && file.getName().startsWith("dev/lorberry/fishhook/client")) {
                     entriesToLoad.add(file);
                 }
             }
+
+            System.out.println("Entries to load: " + entriesToLoad.size());
 
             Method defineClassMethod = ClassLoader.class.getDeclaredMethod("defineClass", String.class, byte[].class, int.class, int.class);
             defineClassMethod.setAccessible(true);
@@ -71,13 +73,15 @@ public class Main {
                             throw e;
                         }
                     }
-
-                    if (failed.size() == entriesToLoad.size()) {
-                        throw new RuntimeException("Failed to load any classes");
-                    } else {
-                        entriesToLoad = failed;
-                    }
                 }
+
+                if (failed.size() == entriesToLoad.size()) {
+                    throw new RuntimeException("Failed to load any classes");
+                } else {
+                    entriesToLoad = failed;
+                }
+
+                System.out.println("Failed: " + failed.size());
             }
 
             Fish.init();
