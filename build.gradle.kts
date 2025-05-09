@@ -14,7 +14,9 @@ dependencies {
 }
 
 tasks.register<Jar>("agentJar") {
-    from(sourceSets.main.get().output)
+    from(sourceSets.main.get().output) {
+        include("dev/lorberry/fishhook/agent/**")
+    }
     archiveFileName.set("agent.jar")
     manifest {
         attributes(
@@ -26,7 +28,9 @@ tasks.register<Jar>("agentJar") {
 }
 
 tasks.register<Jar>("loaderJar") {
-    from(sourceSets.main.get().output)
+    from(sourceSets.main.get().output) {
+        include("dev/lorberry/fishhook/loader/**")
+    }
     archiveFileName.set("loader.jar")
     manifest {
         attributes("Main-Class" to "dev.lorberry.fishhook.loader.Loader")
